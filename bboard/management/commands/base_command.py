@@ -4,6 +4,7 @@ from bboard.models import Bboard
 import requests
 from bs4 import BeautifulSoup
 
+
 class Command(BaseCommand):
     help = 'Парсинг объявлений в модель'
 
@@ -25,6 +26,8 @@ class Command(BaseCommand):
             price = int(el.find('price').find('value').text)
             period = el.find('period').text
             sales_agent = el.find('sales-agent').text
+            # internet = str(el.find('internet').text)
+            # parking = str(el.find('parking').text)
 
             models_pars = Bboard(
                 rent=rent,
@@ -38,9 +41,8 @@ class Command(BaseCommand):
                 price=price,
                 period=period,
                 sales_agent=sales_agent,
+                # internet=internet,
+                # parking=parking,
             )
             models_pars.save()
             self.stdout.write(self.style.SUCCESS('Данные успешно импортированы'))
-
-
-

@@ -15,6 +15,8 @@ class Bboard(models.Model):
     price = models.IntegerField(verbose_name='Цена')
     period = models.CharField(max_length=15, verbose_name='Период')
     sales_agent = models.CharField(max_length=500, verbose_name='Контакты риелтора')
+    # internet = models.CharField(max_length=10, verbose_name='Интернет')
+    # parking = models.CharField(max_length=10, verbose_name='Парковка')
 
     class Meta:
         verbose_name = 'Объявление'
