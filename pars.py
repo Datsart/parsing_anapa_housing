@@ -7,12 +7,17 @@ all_board = soup.find_all('offer')
 # print(all_board)
 for el in all_board:
     rent = el.find('type').text
-    property_type = el.find('property-type').text
     category = el.find('category').text
     location = el.find('location').text
-    # print(location)
-    area = el.find_all('area')
+    area_value = float(el.find('value').text)
+    area_unit = el.find('unit').text
     # image = el.find('image').text
-    print(area)
     description = el.find('description').text
-    # print(description)
+    rooms = int(el.find('rooms').text)
+    floor = int(el.find('floor').text)
+    price = int(el.find('price').find('value').text)
+    period = el.find('period').text
+    sales_agent = el.find('sales-agent').text
+
+
+
