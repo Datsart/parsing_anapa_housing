@@ -19,5 +19,12 @@ for el in all_board:
     period = el.find('period').text
     sales_agent = el.find('sales-agent').text
 
+    internet = el.find('internet')
 
+    if internet is not None:
+        internet = internet.text
+        print(internet)
+    else:
+        internet = None
+        print('лох')
 
