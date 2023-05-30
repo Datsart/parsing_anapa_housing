@@ -1,4 +1,5 @@
 from django.db import models
+from agent.models import Agent
 
 
 # Create your models here.
@@ -14,9 +15,11 @@ class Bboard(models.Model):
     floor = models.IntegerField(verbose_name='Этаж')
     price = models.IntegerField(verbose_name='Цена')
     period = models.CharField(max_length=15, verbose_name='Период')
-    sales_agent = models.CharField(max_length=500, verbose_name='Контакты риелтора')
-    # internet = models.CharField(max_length=10, verbose_name='Интернет')
-    # parking = models.CharField(max_length=10, verbose_name='Парковка')
+    sales_agent = models.ForeignKey(Agent, verbose_name='Агент', on_delete=models.SET_NULL, null=True, blank=True)
+    internet = models.CharField(null=True, blank=True, max_length=10, verbose_name='Интернет')
+    parking = models.CharField(null=True, blank=True, max_length=10, verbose_name='Парковка')
+    creation_date = models.CharField(max_length=20, verbose_name='Дата создания')
+    last_update_date = models.CharField(max_length=20, verbose_name='Дата обновления')
 
     class Meta:
         verbose_name = 'Объявление'
@@ -24,4 +27,4 @@ class Bboard(models.Model):
         ordering = ['-price']
 
     def __str__(self):
-        return self.category
+        return self.location

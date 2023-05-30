@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from bboard.models import Bboard
-
+from agent.models import Agent
 import requests
 from bs4 import BeautifulSoup
 
@@ -25,10 +25,51 @@ class Command(BaseCommand):
             floor = int(el.find('floor').text)
             price = int(el.find('price').find('value').text)
             period = el.find('period').text
-            sales_agent = el.find('sales-agent').text
-            # internet = str(el.find('internet').text)
-            # parking = str(el.find('parking').text)
 
+            creation_date = el.find('creation-date').text
+            creation_date = creation_date.split('T')
+            part_2 = creation_date[1].split('+')
+            part_3 = part_2[0]
+            creation_date = f'{creation_date[0]} {part_3}'
+
+            last_update_date = el.find('last-update-date').text
+            last_update_date = last_update_date.split('T')
+            part_4 = last_update_date[1].split('+')
+            part_5 = part_4[0]
+            last_update_date = f'{last_update_date[0]} {part_5}'
+            # print(creation_date)
+
+            if el.find('internet') != None:
+                internet = el.find('internet').text
+            else:
+                internet = None
+            if el.find('parking') != None:
+                parking = el.find('parking').text
+
+            else:
+                parking = None
+
+            #   вытаскиваем инфу агента
+            sales_agent = el.find('sales-agent')
+            name = sales_agent.find('name').text
+            phone = sales_agent.find('phone').text
+            category_agent = sales_agent.find('category').text
+            organization = sales_agent.find('organization').text
+            email = sales_agent.find('email').text
+            if el.find('photo') != None:
+                photo = sales_agent.find('photo').text
+            else:
+                photo = None
+
+
+            models_agent = Agent.objects.get_or_create(
+                name=name,
+                phone=phone,
+                category=category_agent,
+                organization=organization,
+                email=email,
+                photo=photo,
+            )
             models_pars = Bboard(
                 rent=rent,
                 category=category,
@@ -40,9 +81,12 @@ class Command(BaseCommand):
                 floor=floor,
                 price=price,
                 period=period,
-                sales_agent=sales_agent,
-                # internet=internet,
-                # parking=parking,
+                sales_agent=models_agent,
+                internet=internet,
+                parking=parking,
+                creation_date=creation_date,
+                last_update_date=last_update_date,
             )
             models_pars.save()
-            self.stdout.write(self.style.SUCCESS('Данные успешно импортированы'))
+            # models_agent.save()
+        self.stdout.write(self.style.SUCCESS('Данные успешно импортированы'))
