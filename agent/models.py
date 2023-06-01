@@ -19,4 +19,4 @@ class Agent(models.Model):
         ordering = ['-organization']
 
     def __str__(self):
-        self.name
+        return self.name

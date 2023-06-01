@@ -61,32 +61,44 @@ class Command(BaseCommand):
             else:
                 photo = None
 
+            # вытаскиваем ID  и фото к ним
+        my_dict = {}
+        for el in all_board:
+            id = el.get('internal-id')
+            my_list = []
+            for photo in el.find_all('image'):
+                my_list.append(photo.text)
 
-            models_agent = Agent.objects.get_or_create(
-                name=name,
-                phone=phone,
-                category=category_agent,
-                organization=organization,
-                email=email,
-                photo=photo,
-            )
-            models_pars = Bboard(
-                rent=rent,
-                category=category,
-                location=location,
-                area_value=area_value,
-                area_unit=area_unit,
-                description=description,
-                rooms=rooms,
-                floor=floor,
-                price=price,
-                period=period,
-                sales_agent=models_agent,
-                internet=internet,
-                parking=parking,
-                creation_date=creation_date,
-                last_update_date=last_update_date,
-            )
-            models_pars.save()
-            # models_agent.save()
+            my_dict[id] = my_list
+
+        # флаги (слева) - поля в модели
+        models_agent, _ = Agent.objects.get_or_create(
+            name=name,
+            phone=phone,
+            category=category_agent,
+            organization=organization,
+            email=email,
+            photo=photo,
+        )
+        models_pars, _ = Bboard.objects.get_or_create(
+            rent=rent,
+            category=category,
+            location=location,
+            area_value=area_value,
+            area_unit=area_unit,
+            description=description,
+            rooms=rooms,
+            floor=floor,
+            price=price,
+            period=period,
+            sales_agent=models_agent,
+            internet=internet,
+            parking=parking,
+            creation_date=creation_date,
+            last_update_date=last_update_date,
+            id=id,
+            photo_bboard=photo_bboard,
+        )
+        # models_pars.save()
+        # models_agent.save()
         self.stdout.write(self.style.SUCCESS('Данные успешно импортированы'))

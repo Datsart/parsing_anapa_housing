@@ -20,7 +20,7 @@ class Bboard(models.Model):
     parking = models.CharField(null=True, blank=True, max_length=10, verbose_name='Парковка')
     creation_date = models.CharField(max_length=20, verbose_name='Дата создания')
     last_update_date = models.CharField(max_length=20, verbose_name='Дата обновления')
-
+    photo_bboard = models.CharField(max_length=200, verbose_name='Фото жилья')
     class Meta:
         verbose_name = 'Объявление'
         verbose_name_plural = 'Объявление'
