@@ -11,8 +11,6 @@ class Agent(models.Model):
     email = models.CharField(max_length=40, verbose_name='Email')
     photo = models.TextField(verbose_name='Ссылка на фото', null=True, blank=True)
 
-    # bboard = models.ForeignKey(Bboard, verbose_name='Объявления', on_delete=models.CASCADE, null=True, blank=True)
-
     class Meta:
         verbose_name_plural = 'Агенты'
         verbose_name = 'Агент'
